@@ -29,7 +29,7 @@ class Player(FirstPersonController, Entity):
         if key == 'space':
             self.jump()
         if key == 'left shift hold':
-            self.speed = 100
+            self.speed = 1000
         else:
             self.speed = 25
 
@@ -37,11 +37,11 @@ class Player(FirstPersonController, Entity):
 class Ground(Entity):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.scale = Vec3(1000,1,10)
+        self.scale = Vec3(100000,1,10)
 
         self.model = 'plane'
         self.texture = 'rainbow'
-        self.texture_scale = 10
+        #self.texture_scale = 10
 
         #self.collision = True
         self.position = Vec3(0, 0, 0)
@@ -57,6 +57,7 @@ app = Ursina()
 EditorCamera()
 player = Player()
 camera.z = -10
+
 ground = Ground()
 
 sky = Sky()
@@ -64,9 +65,8 @@ sky = Sky()
 from ursina.shaders import lit_with_shadows_shader # you have to apply this shader to enties for them to receive shadows.
 
 
-Entity(model='cube', y=1, shader=lit_with_shadows_shader)
-pivot = Entity()
-DirectionalLight(parent=pivot, y=-2, z=3, shadows=True)
+
+DirectionalLight(parent=Entity(), y=-2, z=3, shadows=True)
 # Create an Entity for handling pausing an unpausing.
 # Make sure to set ignore_paused to True so the pause handler itself can still receive input while the game is paused.
 pause_handler = Entity(ignore_paused=True)
@@ -80,7 +80,7 @@ def update():
         player.z = 4.5
     if player.z < -4.5:
         player.z = -4.5
-    #player.color = color.random_color()
+
 
 def input(key):
     if key == 'scroll down':
