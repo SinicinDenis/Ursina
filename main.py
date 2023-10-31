@@ -29,25 +29,26 @@ class Player(FirstPersonController, Entity):
         if key == 'space':
             self.jump()
         if key == 'left shift hold':
-            self.speed = 1000
+            self.speed = 1500
         else:
-            self.speed = 25
+            self.speed = 1000
 
 
 class Ground(Entity):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.scale = Vec3(100000,1,10)
-
+        self.scale = Vec3(10000,1,40)
+        #self.rotation_y = 90
         self.model = 'plane'
-        self.texture = 'rainbow'
-        #self.texture_scale = 10
+        self.texture = 'tex_plane_grad_rot_alpha.png'
+
 
         #self.collision = True
         self.position = Vec3(0, 0, 0)
         self.double_sided = True
         self.collider = 'mesh'
-
+        self.alpha = 1
+        #self.rotation_x = 45
 
         self.shader = ursina.shaders.lit_with_shadows_shader
 
@@ -59,6 +60,16 @@ player = Player()
 camera.z = -10
 
 ground = Ground()
+g1 =duplicate(ground, rotation_x=90, y=20, z=20)
+g2 =duplicate(ground, rotation_x=90, y=20, z=-20)
+g3 =duplicate(ground, y=40)
+#for i in range(1, 10):
+#    gr = duplicate(ground, x=i*1000)
+
+
+
+
+#g1 = duplicate(ground,z=-20, rotation_x=120)
 
 sky = Sky()
 
@@ -74,12 +85,13 @@ pause_text = Text('Пауза', origin=(0,0), scale=2, enabled=False) # Make a T
 
 def update():
 
-    if player.y < -10:
-        player.y = 10
-    if player.z > 4.5:
-        player.z = 4.5
-    if player.z < -4.5:
-        player.z = -4.5
+    if player.y < 0:
+        player.y = 0
+    if player.z > 19.5:
+        player.z = 19.5
+    if player.z < -19.5:
+        player.z = -19.5
+
 
 
 def input(key):
